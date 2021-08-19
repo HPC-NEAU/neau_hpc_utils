@@ -2,6 +2,8 @@ __author__ = ['yuquanfeng', 'zhiyaozhang']
 
 import matplotlib.pyplot as plt
 import os
+
+import pandas as pd
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.utils.multiclass import unique_labels
 
@@ -71,18 +73,46 @@ def plot_confusion_matrix(y_true,
     return cm
 
 
-if __name__ == '__main__':
-    y_pred = [0, 0, 2, 2, 0, 2]
-    y_true = [2, 0, 2, 2, 0, 1]
-    # array([[2, 0, 0],
-    #        [0, 0, 1],
-    #        [1, 0, 2]])
-    cm = plot_confusion_matrix(y_true, y_pred,
-                               normalize='all',
-                               # display_labels=['a', 'b', 'c'],
-                               # values_format='.3g',
-                               # colorbar=False
-                               save_name='test',
-                               save_path='../output'
-                               )
-    print(cm)
+def visualize_train(train_loss, train_acc, valid_loss, valid_acc, save_name,
+                    postfix='jpg', figsize=(10, 8), dpi=300, show_checkpoint=True):
+    # visualize the loss and acc as the network trained
+    fig = plt.figure(figsize=figsize, dpi=dpi)
+    plt.plot(range(1, len(train_loss) + 1), train_loss, label='Training Loss')
+    plt.plot(range(1, len(valid_loss) + 1), valid_loss, label='Validation Loss')
+    plt.plot(range(1, len(train_acc) + 1), train_acc, label='Training Acc')
+    plt.plot(range(1, len(valid_acc) + 1), valid_acc, label='Validation Acc')
+
+    # find position of lowest validation loss
+    if show_checkpoint:
+        minposs = valid_loss.index(min(valid_loss)) + 1
+        plt.axvline(minposs, linestyle='--', color='r', label='Early Stopping Checkpoint')
+
+    plt.xlabel('epochs')
+    plt.ylabel('loss & acc')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(f'{save_name}.{postfix}', bbox_inches='tight')
+    plt.show()
+
+
+# if __name__ == '__main__':
+#     df = pd.read_csv('../test/resnet50_2021-8-19-4_41_log.csv')
+#     train_acc, train_loss, = df['train_acc'].values.tolist(), df['train_loss'].values.tolist()
+#     val_acc, val_loss = df['val_acc'].values.tolist(), df['val_loss'].values.tolist()
+#
+#     visualize_train(train_loss, train_acc, val_loss, val_acc, save_name='../output/test_vis_train')
+#     y_pred = [0, 0, 2, 2, 0, 2]
+#     y_true = [2, 0, 2, 2, 0, 1]
+#     # array([[2, 0, 0],
+#     #        [0, 0, 1],
+#     #        [1, 0, 2]])
+#     cm = plot_confusion_matrix(y_true, y_pred,
+#                                normalize='all',
+#                                # display_labels=['a', 'b', 'c'],
+#                                # values_format='.3g',
+#                                # colorbar=False
+#                                save_name='test',
+#                                save_path='../output'
+#                                )
+#     print(cm)

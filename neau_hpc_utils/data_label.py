@@ -198,7 +198,7 @@ def get_split_data(SubClass,
     data_label.split_dataset()
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # get_split_data(SubClass=KagglePlantPathologyDataLabel,
     #                root='/stu01/datasets/Kaggle_plant_pathology/',
     #                files_dir_name='train_images',
@@ -219,14 +219,14 @@ if __name__ == '__main__':
 -------------训练，验证，测试集的拆分长度为12093,3456,1728--------------
     """
 
-    get_split_data(SubClass=KagglePlantPathologyDataLabel,
-                   root='/stu01/datasets/Kaggle_plant_pathology/',
-                   files_dir_name='train_images',
-                   output_dir_name='output',
-                   label_csv_name='train.csv',
-                   postfix='.jpg',
-                   ratio=(8, 1, 1)
-                   )
+    # get_split_data(SubClass=KagglePlantPathologyDataLabel,
+    #                root='/stu01/datasets/Kaggle_plant_pathology/',
+    #                files_dir_name='train_images',
+    #                output_dir_name='output',
+    #                label_csv_name='train.csv',
+    #                postfix='.jpg',
+    #                ratio=(8, 1, 1)
+    #                )
     """
     参考输出2：
     -------------获取文件绝对路径列表--------------
