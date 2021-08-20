@@ -3,7 +3,7 @@ __author__ = ['yuquanfeng', 'sihanzhou']
 import os
 import json
 import numpy as np
-from graph import confusion_matrix
+from .graph import confusion_matrix
 
 
 def get_indicator(y_true, y_pred, save_name='', save_path='./', values_format=3):
