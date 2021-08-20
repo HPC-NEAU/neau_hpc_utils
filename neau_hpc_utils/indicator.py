@@ -3,6 +3,7 @@ __author__ = ['yuquanfeng', 'sihanzhou']
 import os
 import json
 import numpy as np
+import pandas as pd
 from .graph import confusion_matrix
 
 
@@ -64,6 +65,12 @@ def get_indicator(y_true, y_pred, save_name='', save_path='./', values_format=3)
         file_path = os.path.join(save_path, f'{save_name}.json')
         with open(file_path, 'w') as file_obj:
             json.dump(data, file_obj)
+
+        data_for_df = {}
+        for k in data:
+            data_for_df[k] = [data[k]]
+        df = pd.DataFrame(data_for_df)
+        df.to_csv(os.path.join(save_path, f'{save_name}.csv'), index=False)
 
     return data
 

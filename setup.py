@@ -5,7 +5,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setuptools.setup(
     name="neau_hpc_utils",
-    version="1.4.0",
+    version="1.5.0",
     author="yuquanfeng",
     author_email="hannerduffly@gmail.com",
     description="The utils from NEAU HPC Group",
