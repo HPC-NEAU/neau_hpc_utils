@@ -73,11 +73,12 @@ def plot_confusion_matrix(y_true,
 
 
 def visualize_train(train_loss, train_acc, valid_loss, valid_acc, save_name, linestyle='--',
-                    checkpoint_color='r', checkpoint_color_linestyle='--',
-                    text_offset=0.05, text_round=3, loss_y_offset=0., acc_y_offset=0.,
-                    postfix='jpg', figsize=(10, 8), dpi=300, show_checkpoint=True):
+                    checkpoint_color='r', checkpoint_color_linestyle='--', title='', legend_loc='best',
+                    text_offset=0.05, text_round=3, train_loss_y_offset=0., val_acc_y_offset=0.,
+                    max_val_acc_y_offset=0., postfix='jpg', figsize=(16, 9), dpi=300, show_checkpoint=True):
     # visualize the loss and acc as the network trained
     fig = plt.figure(figsize=figsize, dpi=dpi)
+    plt.title(title)
     plt.plot(range(1, len(train_loss) + 1), train_loss, label='Training Loss', color='red', linestyle=linestyle)
     plt.plot(range(1, len(valid_loss) + 1), valid_loss, label='Validation Loss', color='blue', linestyle=linestyle)
     plt.plot(range(1, len(train_acc) + 1), train_acc, label='Training Acc', color='red')
@@ -98,13 +99,13 @@ def visualize_train(train_loss, train_acc, valid_loss, valid_acc, save_name, lin
 
     # min train loss
     x = min_pos
-    y_pos = train_loss[min_pos - 1] - loss_y_offset
+    y_pos = train_loss[min_pos - 1] - train_loss_y_offset
     y = train_loss[min_pos - 1]
     plt.text(x + text_offset, y_pos, f'[{x}, {round(y, text_round)}]')
 
     # max valid acc
     x = min_pos
-    y_pos = valid_acc[min_pos - 1] - acc_y_offset
+    y_pos = valid_acc[min_pos - 1] - val_acc_y_offset
     y = valid_acc[min_pos - 1]
     plt.text(x + text_offset, y_pos, f'[{x}, {round(y, text_round)}]')
 
@@ -117,25 +118,25 @@ def visualize_train(train_loss, train_acc, valid_loss, valid_acc, save_name, lin
     x = max_pos
     y = max(valid_acc)
     if y != valid_acc[min_pos - 1]:
-        plt.text(x + text_offset, y, f'[{x}, {round(y, text_round)}]')
+        plt.text(x + text_offset, y - max_val_acc_y_offset, f'[{x}, {round(y, text_round)}]')
 
     plt.xlabel('epochs')
     plt.ylabel('loss & acc')
     plt.grid(True)
-    plt.legend()
+    plt.legend(loc=legend_loc)
     plt.tight_layout()
     plt.savefig(f'{save_name}.{postfix}', bbox_inches='tight')
     plt.show()
 
-
 # if __name__ == '__main__':
-#     df = pd.read_csv('../test/resnet50_2021-8-19-4_41_log.csv')
+#     df = pd.read_csv('../test/resnet18_2021-08-21-11_00_50_log.csv')
 #     train_acc, train_loss, = df['train_acc'].values.tolist(), df['train_loss'].values.tolist()
 #     val_acc, val_loss = df['val_acc'].values.tolist(), df['val_loss'].values.tolist()
 #
 #     visualize_train(train_loss, train_acc, val_loss, val_acc,
 #                     save_name='../output/test_vis_train',
-#                     acc_y_offset=0.1, loss_y_offset=0.1)
+#                     val_acc_y_offset=0.1, train_loss_y_offset=0.1, max_val_acc_y_offset=0.1,
+#                     legend_loc='best', title="self title")
 #     y_pred = [0, 0, 2, 2, 0, 2]
 #     y_true = [2, 0, 2, 2, 0, 1]
 #     # array([[2, 0, 0],
